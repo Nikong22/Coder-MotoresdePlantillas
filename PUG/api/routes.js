@@ -22,12 +22,17 @@ router.get('/productos', function (req, res) {
 });
 
 router.get("/productos/:id", (req, res) => {
-  const producto = routes_controller.getProducto(req, res);
-  if (!producto) {
-    return res.status(404).json({ error: "Producto no encontrado" });
+  const producto = routes_controller.getProducto(req, res)
+  let tieneDatos;
+  if (producto) {
+    tieneDatos = true
+  } else {
+    tieneDatos = false
   }
-  res.json(producto);
-  });
+  const productos = []
+  productos.push(producto);
+  res.render('main', { productos: productos, listExists: tieneDatos });
+});
 
 router.post("/productos", function (req, res) {
   routes_controller.nuevoProducto(req);
